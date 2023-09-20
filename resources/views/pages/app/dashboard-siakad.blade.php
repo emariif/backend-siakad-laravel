@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'General Dashboard')
+@section('title', 'General Dashboard - Siakad')
 
 @push('style')
     <!-- CSS Libraries -->
