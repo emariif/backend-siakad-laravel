@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\AbsensiMatkulController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\KhsController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Models\AbsensiMatkul;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +28,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::apiResource('schedules', ScheduleController::class)->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('khs', KhsController::class);
+    Route::apiResource('absensi', AbsensiMatkulController::class);
+});
