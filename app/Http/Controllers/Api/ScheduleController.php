@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
+use App\Models\StudentSchedule;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -15,13 +17,15 @@ class ScheduleController extends Controller
     {
         $user = $request->user();
         // Mata kuliah sesuai dengan user yang login (tokennya)
-        $data = Schedule::with(['subject', 'subject.lecturer'])->where('student_id', $user->id)->get();
+        // $data = Schedule::with(['subject', 'subject.lecturer'])->where('student_id', $user->id)->get();
         // $data = Schedule::with(['subject', 'subject.lecturer'])->get();
         // return Schedule::all();
-        return response()->json([
-            'message' => 'data ditemukan User : ' . $user->name,
-            'data'  => $data,
-        ]);
+        // return response()->json([
+        //     'message' => 'data ditemukan User : ' . $user->name,
+        //     'data'  => $data,
+        // ]);
+        $schedule = StudentSchedule::where('student_id', $user->id)->get();
+        return ScheduleResource::collection($schedule->load(['schedule', 'schedule.subject.lecturer', 'student']));
     }
 
     /**
